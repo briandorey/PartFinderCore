@@ -1,0 +1,32 @@
+﻿@page
+@model PartFinderCore.Pages.Parts.Forms.AttachmentDeleteModel
+@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/bootstrap-icons.css" rel="stylesheet" />
+
+</head>
+<body>
+    <form method="post" class="m-0 p-0 w-100" enctype="multipart/form-data">
+            <div class="container-fluid">
+                <div class="row mb-3">
+                    <div class="col-12 ">
+                        <p>Are you sure you want to delete:</p>
+                        <p>@Model.Message</p>
+                        <p><button type="submit" asp-page-handler="SaveFile" class="btn btn-danger btn-sm"><i class="bi bi-trash me-2"></i>Delete File</button></p>
+                    </div>
+                </div>
+            </div>
+        <input type="hidden" asp-for="SelectedId" />
+    </form>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

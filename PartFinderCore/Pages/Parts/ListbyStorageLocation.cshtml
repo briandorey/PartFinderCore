@@ -1,0 +1,71 @@
+﻿@page
+
+@model PartFinderCore.Pages.Parts.ListbyStorageLocationModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+@section header {
+
+    <form class="row float-end"><div class="col-auto text-end"><select name="StorageId" id="StorageId" asp-items="Model.Options" onchange="SelectNewMan()" class="form-select  form-select-sm"></select></div><div class="col-auto"> <a href="/storage" title="List View" class="btn btn-sm btn-outline-secondary me-2"><i class="bi bi-list me-2"></i>List Storage Locations</a><a id="addlink" href="/admin/storagelocations/add" class="btn btn-sm btn-primary"><i class="bi bi-plus-circle me-2"></i>Add new</a></div></form>
+
+}
+@section HeaderBreadCrumb {
+    <li class="breadcrumb-item"><a class="link-body-emphasis fw-semibold text-decoration-none" href="/parts/">Parts</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Parts by Storage Location @Model.CurrentLocation</li>
+}
+
+
+@section FooterScripts {
+    <script src="/js/pagescripts.js"></script>
+    <script>
+        function SelectNewMan() {
+            const selectMenu = document.getElementById('StorageId');
+            const selectedUrl = '/parts/listbystoragelocation?id=' + selectMenu.value;
+            if (selectedUrl) {
+                window.location.href = selectedUrl;
+            } else {
+                alert('Please select a URL to navigate to.');
+            }
+        }
+    </script>
+}
+@Html.Raw(Model.LitMsg)
+<div class="border rounded px-4 pt-2 bg-white">
+    <!-- start content -->
+
+    <table class="table">
+        <tr>
+            <th data-sortable="true"><a class="datatable-sorter" asp-page="/Parts/ListbyStorageLocation" asp-route-sortorder="@Model.SortName" asp-route-id="@Model.CurrentId">Name</a></th>
+            <th><a class="datatable-sorter" asp-page="/Parts/ListbyStorageLocation" asp-route-sortorder="@Model.SortDescription" asp-route-id="@Model.CurrentId">Description</a></th>
+            <th><a class="datatable-sorter" asp-page="/Parts/ListbyStorageLocation" asp-route-sortorder="@Model.SortStock" asp-route-id="@Model.CurrentId">Stock</a></th>
+            <th><a class="datatable-sorter" asp-page="/Parts/ListbyStorageLocation" asp-route-sortorder="@Model.SortLocation" asp-route-id="@Model.CurrentId">Location</a></th>
+            <th><a class="datatable-sorter" asp-page="/Parts/ListbyStorageLocation" asp-route-sortorder="@Model.SortManufacturer" asp-route-id="@Model.CurrentId">Manufacturer</a></th>
+            <th><a class="datatable-sorter" asp-page="/Parts/ListbyStorageLocation" asp-route-sortorder="@Model.SortFootprint" asp-route-id="@Model.CurrentId">Footprint</a></th>
+            <th><a class="datatable-sorter" asp-page="/Parts/ListbyStorageLocation" asp-route-sortorder="@Model.SortCategory" asp-route-id="@Model.CurrentId">Category</a></th>
+        </tr>
+        @if (Model.Data != null)
+        {
+            foreach (var item in Model.Data)
+            {
+                <tr>
+                    <td>
+                        <a href="/parts/view?id=@item.PartPkey">
+                            @item.PartName
+                        </a>
+                    </td>
+                    <td>@item.PartDescription</td>
+                    <td>@item.StockLevel</td>
+                    <td>@item.StorageName</td>
+                    <td>@item.ManufacturerName</td>
+                    <td>@item.FootprintName</td>
+                    <td>@item.PCName</td>
+
+
+                </tr>
+            }
+        }
+    </table>
+    @Html.Raw(Model.Pagination)
+    <!-- end content -->
+</div>

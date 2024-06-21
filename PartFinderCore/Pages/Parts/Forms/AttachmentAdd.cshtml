@@ -1,0 +1,54 @@
+﻿@page
+@using PartFinderCore.Classes
+@model PartFinderCore.Pages.Parts.Forms.AttachmentAddModel
+@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/bootstrap-icons.css" rel="stylesheet" />
+
+</head>
+<body>
+    <form method="post" class="m-0 p-0 w-100" enctype="multipart/form-data">
+            <div class="container-fluid">
+                <div class="row mb-3">
+                    <div class="col-12 ">
+                        <p>Please select your file to add to your part below. </p>
+                    <p>Allowed file types: @FileHelpers.GetCommaSeparatedExtensions()</p>
+                    </div>
+                    <div class="col-12 ">
+                        <!-- start content -->
+                        @Model.ErrorMessage
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
+                        <div class="mb-3">
+                            <label for="File1">Choose file</label>
+                        <input type="file" asp-for="Upload" class="form-control form-control-sm me-2" accept="@FileHelpers.GetCommaSeparatedExtensions()"  />
+                            <small id="File1Help" class="form-text text-muted">Maximum file size is 4Mb.</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="DisplayName">Display Name</label>
+                            <input asp-for="DisplayName" class="form-control" MaxLength="250" title="Link for your page, max 60 characters, lower case, no spaces" />
+                        </div>
+                    <button type="submit" asp-page-handler="SaveFile" class="btn btn-primary btn-sm float-end"><i class="bi bi-floppy me-2"></i>Upload</button>
+                        <!-- end content -->
+                    </div>
+                </div>
+            </div>
+        
+
+        <input type="hidden" asp-for="SelectedId" />
+
+    </form>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

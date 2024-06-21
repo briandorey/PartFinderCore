@@ -1,0 +1,68 @@
+﻿@page
+@model PartFinderCore.Pages.Parts.ListbyCategoryModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+@section header {
+
+    <form class="row float-end"><div class="col-auto text-end"><select name="CategoryId" id="CategoryId" asp-items="Model.Options" onchange="SelectNew()" class="form-select  form-select-sm"></select></div><div class="col-auto"> <a id="addlink" href="/admin/category/add" class="btn btn-sm btn-primary"><i class="bi bi-plus-circle me-2"></i>Add new</a></div></form>
+
+}
+@section HeaderBreadCrumb {
+    <li class="breadcrumb-item"><a class="link-body-emphasis fw-semibold text-decoration-none" href="/parts/">Parts</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Parts by Category @Model.CurrentCategory</li>
+}
+
+
+@section FooterScripts {
+    <script src="/js/pagescripts.js"></script>
+    <script>
+        function SelectNew() {
+            const selectMenu = document.getElementById('CategoryId');
+            const selectedUrl = '/parts/listbycategory?id=' + selectMenu.value;
+            if (selectedUrl) {
+                window.location.href = selectedUrl;
+            } else {
+                alert('Please select a URL to navigate to.');
+            }
+        }
+    </script>
+}
+@Html.Raw(Model.LitMsg)
+<div class="border rounded px-4 pt-2 bg-white">
+    <!-- start content -->
+
+    <table class="table">
+        <tr>
+            <th><a class="datatable-sorter" asp-page="/Parts/ListbyCategory" asp-route-sortorder="@Model.SortName" asp-route-id="@Model.CurrentId">Name</a></th>
+            <th><a class="datatable-sorter" asp-page="/Parts/ListbyCategory" asp-route-sortorder="@Model.SortDescription" asp-route-id="@Model.CurrentId">Description</a></th>
+            <th><a class="datatable-sorter" asp-page="/Parts/ListbyCategory" asp-route-sortorder="@Model.SortStock" asp-route-id="@Model.CurrentId">Stock</a></th>
+            <th><a class="datatable-sorter" asp-page="/Parts/ListbyCategory" asp-route-sortorder="@Model.SortLocation" asp-route-id="@Model.CurrentId">Location</a></th>
+            <th><a class="datatable-sorter" asp-page="/Parts/ListbyCategory" asp-route-sortorder="@Model.SortManufacturer" asp-route-id="@Model.CurrentId">Manufacturer</a></th>
+            <th><a class="datatable-sorter" asp-page="/Parts/ListbyCategory" asp-route-sortorder="@Model.SortFootprint" asp-route-id="@Model.CurrentId">Footprint</a></th>
+            <th><a class="datatable-sorter" asp-page="/Parts/ListbyCategory" asp-route-sortorder="@Model.SortCategory" asp-route-id="@Model.CurrentId">Category</a></th>
+        </tr>
+        @if (Model.Data != null)
+        {
+            foreach (var item in Model.Data)
+            {
+                <tr>
+                    <td>
+                        <a href="/parts/view?id=@item.PartPkey">
+                            @item.PartName
+                        </a>
+                    </td>
+                    <td>@item.PartDescription</td>
+                    <td>@item.StockLevel</td>
+                    <td>@item.StorageName</td>
+                    <td>@item.ManufacturerName</td>
+                    <td>@item.FootprintName</td>
+                    <td>@item.PCName</td>
+                </tr>
+            }
+        }
+    </table>
+    @Html.Raw(Model.Pagination)
+    <!-- end content -->
+</div>

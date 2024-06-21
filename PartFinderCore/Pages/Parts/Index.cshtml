@@ -1,0 +1,95 @@
+﻿@page
+@model PartFinderCore.Pages.parts.IndexModel
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+@section HeaderBreadCrumb {
+    <li class="breadcrumb-item active" aria-current="page">Parts</li>
+}
+@section header {
+    <a href="/api/export" title="Export" class="btn btn-sm btn-outline-primary me-2"><i class="bi bi-filetype-csv me-2"></i>Export</a><a href="/parts/list" title="List View" class="btn btn-sm btn-outline-secondary me-2"><i class="bi bi-list me-2"></i>List View</a><a id="addlink" href="/parts/add" class="btn btn-sm btn-primary"><i class="bi bi-plus-circle me-2"></i>Add new</a>
+}
+
+
+@section FooterScripts {
+    <script src="/js/treeview.js"></script>
+    <script type="text/javascript">
+        function loadPartPage(pkey) {
+            window.location.href = '/parts/view?id=' + pkey;
+        }
+
+        function buildList(key, tabletitle) {
+            document.getElementById("tables").innerHTML = '';
+
+            var JSONService = "/jsondata/parts?filter=" + key;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", JSONService, true);  // Make the request asynchronous
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.responseType = "json";
+
+            xhr.onload = function () {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    var response = xhr.response;
+                    var strdata = '';
+                    strdata += '<h2 id="tabletitle" class="mb-3">' + tabletitle + '</h6>';
+                    strdata += '<div id="tablecontent">';
+                    strdata += '<table class="table border-bottom tablelinks">';
+                    strdata += '<tr>';
+                    strdata += '<th>Name</th>';
+                    strdata += '<th>Description</th>';
+                    strdata += '<th>Stock Level</th>';
+                    strdata += '<th>Location</th>';
+                    strdata += '<th>Manufacturer</th>';
+                    strdata += '<th>Footprint</th>';
+                    strdata += '<th></th>';
+                    strdata += '</tr>';
+
+                  
+                    response.forEach(function (value) {
+                        strdata += '<tr onclick="loadPartPage(' + value.partPkey + ')">';
+                        strdata += '<td><a href="/parts/view?id=' + value.partPkey + '">' + value.partName + '</a></td>';
+                        strdata += '<td>' + value.partDescription + '</td>';
+                        strdata += '<td>' + value.stockLevel + '</td>';
+                        strdata += '<td>' + value.storageName + '</td>';
+                        strdata += '<td>' + value.manufacturerName + '</td>';
+                        strdata += '<td>' + value.footprintName + '</td>';
+                        strdata += '<td class="text-end"><a href="/parts/view?id=' + value.partPkey + '"><i class="fa fa-search text-primary fa-1x"></i></a></td>';
+                        strdata += '</tr>';
+                    });
+
+                    strdata += '</table>';
+                    strdata += '</div>';
+                    document.getElementById("tables").insertAdjacentHTML('beforeend', strdata);
+                } else {
+                    alert("error " + xhr.statusText);
+                }
+            };
+
+            xhr.onerror = function () {
+                alert("error " + xhr.statusText);
+            };
+
+            xhr.send();
+        }
+    </script>
+}
+
+<div class="border rounded px-4 pt-2 bg-white">
+<div class="row">
+    <div class="col-12 col-md-4 col-xl-3 ">
+        <div id="treeview">
+                @Html.Raw(Model.TextFolderTree)
+        </div>
+    </div>
+    <div class="col-12 col-md-8 col-xl-9">
+
+        <div class="text-end mb-3"></div>
+        <div class="mb-4">
+            <div id="tables">
+            </div>
+        </div>
+    </div>
+</div>
+</div>

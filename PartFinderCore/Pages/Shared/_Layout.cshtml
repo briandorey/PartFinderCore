@@ -1,0 +1,181 @@
+﻿@using PartFinderCore.Classes
+@{
+    var LitStatus = "";
+
+    if (Context.Request.Query.TryGetValue("mode", out var queryVal) &&
+        queryVal.FirstOrDefault() == "add")
+    {
+        LitStatus = "<div class=\"alert alert-success\" role=\"alert\">Your item has been added.</div>";
+    }
+    if (Context.Request.Query.TryGetValue("mode", out queryVal) &&
+        queryVal.FirstOrDefault() == "update")
+    {
+        LitStatus = "<div class=\"alert alert-success\" role=\"alert\">Your changes have been saved.</div>";
+    }
+    if (Context.Request.Query.TryGetValue("mode", out queryVal) &&
+        queryVal.FirstOrDefault() == "delete")
+    {
+        LitStatus = "<div class=\"alert alert-success\" role=\"alert\">Your item has been deleted.</div>";
+    }
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PartFinder</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/site.css" rel="stylesheet" />
+    <link href="/css/bootstrap-icons.css" rel="stylesheet" />
+    @await RenderSectionAsync("HeaderScripts", required: false)
+</head>
+<body id="page-top">
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-auto bg-sidebar d-none d-md-block ">
+                <div class="d-flex flex-md-column flex-row flex-nowrap bg-sidebar align-items-center">
+                    <a href="/" class="d-block p-3 link-light flex-fill  text-decoration-none"  data-bs-placement="right" data-bs-toggle="tooltip"  title="Home">
+                        <img src="/img/logowhite.svg" class="img-fluid" width="50" height="50" alt="Part Finder" />
+                    </a>
+                    <ul class="nav nav-pills nav-flush flex-md-column flex-row flex-nowrap mb-auto mx-auto text-center align-items-center flex-fill ">
+       
+                        <li>
+                            <a href="/parts/" class="nav-link py-2 px-2" title="Parts" data-bs-toggle="tooltip" data-bs-placement="right" >
+                                <i class="bi-cpu fs-4"></i><br /><span>Parts</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/storage" class="nav-link py-2 px-2" title="Storage" data-bs-toggle="tooltip" data-bs-placement="right">
+                                <i class="bi-box fs-4"></i><br /><span>Storage</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/manufacturers" class="nav-link py-2 px-2" title="Manufacturers" data-bs-toggle="tooltip" data-bs-placement="right" title="Manufacturers">
+                                <i class="bi-cart fs-4"></i><br /><span>Manufacturers</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/footprints" class="nav-link py-2 px-2" title="Footprints" data-bs-toggle="tooltip" data-bs-placement="right">
+                                <i class="bi-columns-gap fs-4"></i><br /><span>Footprints</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/files" class="nav-link py-2 px-2" title="Files" data-bs-toggle="tooltip" data-bs-placement="right" >
+                                <i class="bi-files fs-4"></i><br /><span>Files</span>
+                            </a>
+                        </li>
+                  
+                        <li>
+                            <a href="/admin/" class="nav-link py-2 px-2" title="Admin" data-bs-toggle="tooltip" data-bs-placement="right">
+                                <i class="bi-gear fs-4"></i><br /><span>Admin</span>
+                            </a>
+                        </li>
+                        @if (GlobalData.SiteData.RequireLogin)
+                        {
+                            <li>
+                                <a href="/signout" class="nav-link py-2 px-2" title="Sign out" data-bs-toggle="tooltip" data-bs-placement="right">
+                                <i class="bi-box-arrow-left fs-4"></i><br /><span>Sign out</span>
+                            </a>
+                        </li>
+                        }
+                    </ul>
+
+                </div>
+            </div>
+            <div class="col-md px-sm-3  px-md-3 min-vh-100">
+                <nav class="navbar navbar-expand-lg bg-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="/">@ViewData["Title"]</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarToggler">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item  d-block d-md-none">
+                                    <a class="nav-link" href="/"><i class="bi bi-house-fill me-2"></i>Dashboard</a>
+                                </li>
+                                <li class="nav-item d-block d-md-none">
+                                    <a class="nav-link" href="/parts/"><i class="bi-cpu me-2"></i>Parts</a>
+                                </li>
+                                <li class="nav-item d-block d-md-none">
+                                    <a class="nav-link" href="/storage"><i class="bi-box me-2"></i>Storage</a>
+                                </li>
+                                <li class="nav-item d-block d-md-none">
+                                    <a class="nav-link" href="/manufacturers"><i class="bi-cart me-2"></i>Manufacturers</a>
+                                </li>
+                                <li class="nav-item d-block d-md-none">
+                                    <a class="nav-link" href="/footprints"><i class="bi-columns-gap me-2"></i>Footprints</a>
+                                </li>
+                                <li class="nav-item d-block d-md-none">
+                                    <a class="nav-link" href="/admin/files"> <i class="bi-files me-2"></i>Files</a>
+                                </li>
+                                <li class="nav-item d-block d-md-none">
+                                    <a class="nav-link" href="/admin/"><i class="bi-gear me-2"></i>Admin</a>
+                                </li>
+                                
+                                @if (GlobalData.SiteData.RequireLogin)
+                                {
+                                <li class="nav-item d-block d-md-none">
+                                    <a class="nav-link" href="/signouta"><i class="bi-box-arrow-left me-2"></i>Sign Out</a>
+                                </li>
+                                }
+                            </ul>
+                            <form name="searchform" id="searchform" class=" form-inline d-flex" role="search" action="/search">
+                                <div class="input-group">
+                                    <input class="form-control" type="text" id="searchbox" name="searchbox" placeholder="Search..." aria-label="Search..." aria-describedby="btnNavbarSearch" />
+                                    <button class="btn btn-secondary" id="btnNavbarSearch" type="submit"><i class="bi bi-search"></i></button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </nav>
+                <header>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+                                    <li class="breadcrumb-item">
+                                        <a class="link-body-emphasis" href="/">
+                                            <i class="bi bi-house-fill"></i>
+                                            <span class="visually-hidden">Dashboard</span>
+                                        </a>
+                                    </li>
+                                    @await RenderSectionAsync("HeaderBreadCrumb", required: false)
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="col-12 col-md-6 text-end">@await RenderSectionAsync("Header", required: false)</div>
+                    </div>
+
+                </header>
+                <div class="row mb-5">
+                    <div class="col-12">
+                        <!-- content -->
+                        @Html.Raw(LitStatus)
+
+                        @RenderBody()
+
+                        <!-- end content -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <script src="/js/popper.min.js"></script>
+        <script src="/js/bootstrap.bundle.min.js"></script>
+        <script>
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
+        </script>
+        <!-- Custom scripts for all pages-->
+        @await RenderSectionAsync("FooterScripts", required: false)
+</body>
+</html>

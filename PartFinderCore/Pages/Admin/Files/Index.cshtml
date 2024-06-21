@@ -1,0 +1,251 @@
+﻿@page
+@using PartFinderCore.Classes
+@model PartFinderCore.Pages.Admin.Files.IndexModel
+@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+@section HeaderBreadCrumb {
+    <li class="breadcrumb-item active" aria-current="page">Files</li>
+    @Html.Raw(Model.TextBreadcrumb)
+}
+@section header {
+   
+}
+<form method="post" class="m-0 p-0 w-100" enctype="multipart/form-data">
+<div class="border rounded px-4 pt-2 bg-white">
+<div class="row mt-2">
+    <div class="col-12 col-md-3 ">
+        <h4>Add new file(s)</h4>
+        @Html.Raw(Model.ErrorMessage)
+           
+        <hr />
+        <div class="row mb-3">
+            <div class="col-12  form-inline d-flex flex-row align-self-center align-items-center">
+                    <input type="file" asp-for="Upload" class="form-control form-control-sm me-2" accept="@FileHelpers.GetCommaSeparatedExtensions()" />
+                <button type="submit" asp-page-handler="SaveFile" class="btn btn-primary btn-sm">Upload</button>
+            </div>
+        </div>
+            <p>Allowed file types: @FileHelpers.GetCommaSeparatedExtensions()</p>
+        <hr />
+        <h4>Folders</h4>
+            <div id="treeview">
+                @Html.Raw(Model.TextFolderTree)
+        </div>
+    </div>
+    <div class="col-12 col-md-9">
+        <div class="row">
+            <div class="col-6 form-inline d-flex flex-row align-self-center align-items-center">
+                        <label class="me-sm-2" for="NewFolderName">Add Folder</label>
+                <input asp-for="NewFolderName" class="form-control form-control-sm  mb-2 me-sm-2 mb-sm-0" style="width: 150px;" MaxLength="250" />
+                <button type="submit" asp-page-handler="Save" class="btn btn-primary btn-sm">
+                    Add Folder
+                </button>
+                <input type="hidden" asp-for="SelectedFolder" />
+            </div>
+
+            <div class="col-6 text-end">
+
+                @if (Model.CurrentPath.Length > 1)
+                {
+                    <a href="Javascript:Folderconfirmation();" class="btn btn-sm btn-danger"><i class="bi bi-trash me-3" aria-hidden="true"></i>Delete Folder</a>
+                }
+            </div>
+        </div>
+        <hr />
+
+        <div class="row mb-2">
+            <div class="col-12 col-sm-8"><asp:Label ID="PagingNav1" runat="server" /></div>
+            <div class="col-12 col-sm-4 text-end"><a href="javascript:;" id="listmodeicons" title="View Icons"><i class="bi bi-image iconmed me-2 text-secondary" aria-hidden="true"></i></a>  <a href="javascript:;" id="listmodelist" title="View List"><i class="bi bi-list iconmed text-secondary" aria-hidden="true"></i></a></div>
+        </div>
+                <div class="row pt-3 pb-3 mb-1 fw-bold d-none" id="listmodeheader">
+                    <div class="col-1 align-content-center">&nbsp;</div>
+                    <div class="col-5 align-content-center">Name</div>
+                    <div class="col-3 align-content-center">Size</div>
+                    <div class="col-3 align-content-center">Modified</div>
+        </div>
+        <div class="row">
+            @foreach (var sitefile in Model.FileList)
+            {
+                        <div class="col-12 pb-2 pt-2 listmode @Model.CheckListMode(false)" style="border-bottom: 1px solid #ededed;" onclick="showinfo('@sitefile.FileName', '@sitefile.FileSize', '@sitefile.FileDate', '@Model.MakeIcon(sitefile.FolderName, true)', '@Url.Page("Index", "DownloadFile", new { fileName = Model.MakeSafePath(sitefile.FolderName)})&d=@Model.EncodeUrl(Model.CurrentPath)','@Model.MakeSafePath(sitefile.FolderName)');">
+                    <div class="row">
+                        <div class="col-1 text-center align-content-center">
+                            <img class=" img-fluid my-auto" style="max-height: 25px; max-width: 50px; margin: 0 auto;" src="@Model.MakeIcon(sitefile.FolderName, false)" alt="Preview">
+                        </div>
+                        <div class="col-5 align-content-center">@sitefile.FileName</div>
+                        <div class="col-3 align-content-center">@sitefile.FileSize</div>
+                        <div class="col-3 align-content-center">@sitefile.FileDate</div>
+
+
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+
+
+                <div class="col-6 col-lg-2  col-md-3 mb-2  d-flex align-items-stretch iconmode @Model.CheckListMode(true)">
+                            <div class="card w-100" onclick="showinfo('@sitefile.FileName', '@sitefile.FileSize', '@sitefile.FileDate', '@Model.MakeIcon(sitefile.FolderName, true)', '@Url.Page("Index", "DownloadFile", new { fileName = Model.MakeSafePath(sitefile.FolderName)})&d=@Model.EncodeUrl(Model.CurrentPath)','@Model.MakeSafePath(sitefile.FolderName)');">
+                        <img class="card-img-top img-fluid mt-2 " style="max-height: 75px; max-width: 75px; margin: 0 auto;" src="@Model.MakeIcon(sitefile.FolderName, false)" alt="Preview">
+                        <div class="card-body ">
+                            <p class="card-text  align-content-center">@sitefile.FileName</p>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+</div>
+<!-- Modal For file info -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">File Information</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">
+                    <img id="modalimage" class="img-fluid" src="/img/folder.svg" style="min-height: 200px; max-height: 200px; max-width: 200px;" />
+                </p>
+                <h4 id="modalname">Name: </h4>
+                <p id="modalsize">Size: </p>
+                <p id="modaldate">Date: </p>
+                <div id="modalfileinfo"></div>
+            </div>
+            <div class="modal-footer">
+                <a id="modaldelete" href="Javascript:;" class="me-5  me-auto" title="Delete File"><i class="bi bi-trash iconmed text-danger" aria-hidden="true"></i></a>
+                <a id="modaldownload" href="Javascript:;" class="me-5 me-auto" title="Download File"><i class="bi iconmed bi-download" aria-hidden="true"></i></a>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal-backdrop fade show" id="backdrop" style="display: none;"></div>
+</form>
+<!-- /.modal -->
+@section FooterScripts {
+    <script src="/js/treeview.js"></script>
+    <script type="text/javascript">
+
+        
+        function Folderconfirmation() {
+
+            var answer = confirm("Are you sure you want to delete this folder and all files and subfolders within this folder?\nPlease Note: This action will log you out of admin to reload your folder settings.")
+            if (answer) {
+                window.location = "/admin/files/delete?f=@Model.CurrentPath.Replace("\\", "/")&mode=folder";
+            }
+
+        }
+
+        function confirmation(filepath) {
+            var answer = confirm("Are you sure you want to delete this file?")
+            if (answer) {
+                window.location = '/admin/files/delete?f=' + filepath + '&mode=file';
+            }
+        }
+
+        document.getElementById("listmodeicons").addEventListener("click", function () {
+
+            document.getElementById("listmodeheader").classList.add("d-none");
+            var iconModeElements = document.querySelectorAll(".iconmode");
+            iconModeElements.forEach(function (element) {
+                element.classList.remove("d-none");
+            });
+
+            var listModeElements = document.querySelectorAll(".listmode");
+            listModeElements.forEach(function (element) {
+                element.classList.add("d-none");
+            });
+            var listModelistIcons = document.querySelectorAll("#listmodelist i");
+            listModelistIcons.forEach(function (icon) {
+                icon.classList.remove("text-primary");
+                icon.classList.add("text-secondary");
+            });
+            var listModeIcons = document.querySelectorAll("#listmodeicons i");
+            listModeIcons.forEach(function (icon) {
+                icon.classList.remove("text-secondary");
+                icon.classList.add("text-primary");
+            });
+            var expirationDate = new Date(Date.now() + 86400000); // 24 hours from now
+            document.cookie = "adminFileManagerView=icon; expires=" + expirationDate.toUTCString() + ";";
+        });
+
+        document.getElementById("listmodelist").addEventListener("click", function () {
+            document.getElementById("listmodeheader").classList.remove("d-none");
+            var listModeElements = document.querySelectorAll(".listmode");
+            listModeElements.forEach(function (element) {
+                element.classList.remove("d-none");
+            });
+            
+            var iconModeElements = document.querySelectorAll(".iconmode");
+            iconModeElements.forEach(function (element) {
+                element.classList.add("d-none");
+            });
+
+            var listModeIcons = document.querySelectorAll("#listmodeicons i");
+            listModeIcons.forEach(function (icon) {
+                icon.classList.remove("text-primary");
+                icon.classList.add("text-secondary");
+            });
+            var listModelistIcons = document.querySelectorAll("#listmodelist i");
+            listModelistIcons.forEach(function (icon) {
+                icon.classList.remove("text-secondary");
+                icon.classList.add("text-primary");
+            });
+           
+            var expirationDate = new Date(Date.now() + 86400000); // 24 hours from now
+            document.cookie = "adminFileManagerView=list; expires=" + expirationDate.toUTCString() + ";";
+        });
+
+        function showinfo(filename, fileSize, fileDate, fileimage, filepath, deletepath) {
+
+            document.getElementById('modalimage').src = fileimage.replace()
+            document.getElementById('modalname').innerHTML = 'Name: ' + filename;
+            document.getElementById('modalsize').innerHTML = 'Size: ' + fileSize;
+            document.getElementById('modaldate').innerHTML = 'Date: ' + fileDate;
+
+            document.getElementById('modaldelete').addEventListener('click', function () {
+                confirmation(deletepath);
+            });
+
+            document.getElementById('modaldownload').addEventListener('click', function () {
+                window.location = filepath;
+            });
+
+            document.getElementById("backdrop").style.display = "block"
+            document.getElementById("myModal").style.display = "block"
+            document.getElementById("myModal").className += "show"
+        }
+
+        function closeModal() {
+            document.getElementById("backdrop").style.display = "none"
+            document.getElementById("myModal").style.display = "none"
+            document.getElementById("myModal").className += document.getElementById("exampleModal").className.replace("show", "")
+        }
+
+        var modal = document.getElementById('myModal');
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                closeModal()
+            }
+        }
+
+        //-->
+    </script>
+
+    <style>
+        #myModal .modal-dialog {
+            -webkit-transform: translate(0,-50%);
+            -o-transform: translate(0,-50%);
+            transform: translate(0,-50%);
+            top: 50%;
+            margin: 0 auto;
+        }
+
+        
+    </style>
+}

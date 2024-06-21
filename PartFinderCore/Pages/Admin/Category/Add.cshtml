@@ -1,0 +1,48 @@
+﻿@page
+@model PartFinderCore.Pages.Admin.Category.AddModel
+@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+@section header {
+
+    <a href="/admin/category/" title="List All" class="btn btn-sm btn-secondary"><i class="bi bi-list me-2"></i>List All</a>
+}
+@section HeaderBreadCrumb {
+    <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="/admin/">Admin</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="/admin/category/">Category</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Add Category</li>
+}
+<form method="post" class="m-0 p-0 w-100" enctype="multipart/form-data">
+<div class="border rounded px-4 pt-2 bg-white">
+        
+        
+        <div class="row">
+            <div class="col-12 col-md-6"><div asp-validation-summary="All" class="text-danger"></div>@Model.ErrorMessage</div>
+            <div class="col-12 col-md-6 text-end"><button type="submit" asp-page-handler="Save" class="btn btn-primary "><i class="bi bi-floppy me-2"></i>Save</button></div>
+            <div class="col-12">
+                <div class="mb-3">
+                    <label for="PartCategoryID">Parent Category</label>
+                    <select name="ParentID" id="ParentID" asp-items="Model.CategoryItems" class="form-select  form-select-sm"></select>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="mb-3 required">
+                    <label for="PCName">Name:</label>
+                    <input asp-for="PcName" class="form-control form-control-sm" MaxLength="250" />
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="mb-3">
+                    <label for="PCDescription">Description</label>
+                    <input asp-for="PcDescription" class="form-control form-control-sm" MaxLength="250" />
+                </div>
+            </div>
+           
+</div>
+</div>
+</form>

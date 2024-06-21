@@ -1,0 +1,94 @@
+﻿@page
+@model PartFinderCore.Pages.Admin.FilebrowserModel
+@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/bootstrap-icons.css" rel="stylesheet" />
+        <script>
+        function sendFileName(selectedFile) {
+                window.opener.setSelectedFile('/docs' + selectedFile);
+                window.close();
+        }
+    </script>
+    <style>
+        .images img {
+            height: auto;
+            max-width: 90%;
+            max-height: 75px;
+            margin: 0 auto;
+        }
+
+        .folders img {
+            height: auto;
+            width: 60px;
+            height: 75px;
+            margin: 0 auto;
+        }
+
+        body {
+            color: #4b4b4b;
+        }
+
+        h5 {
+            font-weight: 300;
+        }
+        p { line-height: 1em; margin: 0 0 10px 0; padding: 0;}
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col my-3 ms-3 ">
+                <h5>@Model.ErrorMessage</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            @if (Model.ShowUp)
+            {
+                <div class="col mx-3  small folders">
+                    <p><a href="/admin/filebrowser?d=@Model.ParentPath&fieldname=@Model.FormFieldname"><img src="/img/folder.svg" /></a></p>
+                    <p>Up</p>
+                </div>
+
+            }
+            @foreach (var fileitem in Model.DirectoryList)
+            {
+                <div class="col  mx-3 small folders">
+                    <p>
+                        <a href="/admin/filebrowser?d=@fileitem.FileDirectoryPath&fieldname=@Model.FormFieldname">
+                            <img src="/img/folder.svg" alt="Show Contents" border="0">
+                        </a>
+                    </p>
+                    <p>@fileitem.FileDirectory</p>
+                </div>
+            }
+
+            @foreach (var fileItem in Model.FileList)
+            {
+                <br>
+
+                <div class="col small images text-center">
+                    <p>
+                        <a href="#" onclick="sendFileName('@fileItem.FilePath.Replace("\\","/").Replace("//","/")');">
+                            <img src="@Model.MakeIcon(fileItem.FilePath)" alt="Select File or Image" class="img-fluid" border="0">
+                        </a>
+                    </p>
+                    <p>
+                        @fileItem.FileName
+                    </p>
+                </div>
+
+            }
+        </div>
+    </div>
+
+    </body>
+    </html>

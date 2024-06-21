@@ -1,0 +1,271 @@
+﻿@page
+@model PartFinderCore.Pages.Parts.ViewModel
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+@section header {
+    <a href="/parts/" title="Tree View" class="btn btn-sm btn-outline-secondary me-2"><i class="bi bi-list-nested me-2"></i>Tree View</a><a id="addlink" href="javascript:LoadModal('partedit?id=@Model.LitItemId', 'Edit Part');" class="btn btn-sm btn-primary"><i class="bi bi-pen me-2"></i>Edit</a>
+}
+@section HeaderBreadCrumb {
+    <li class="breadcrumb-item"><a class="link-body-emphasis fw-semibold text-decoration-none" href="/parts/">Parts</a></li>
+    <li class="breadcrumb-item active" aria-current="page">
+        View
+    </li>
+}
+<div class="border rounded px-4 pt-2 mb-3 bg-white">
+    <!-- start content -->
+    <h1 class="mb-3  fw-light">@Model.LitPartName
+    </h1>
+    <div class="row border-bottom pb-2 mb-3">
+        <div class="col-12 col-md-4">
+            <p>
+                <strong>MPN:</strong><br />
+                @Model.LitMpn
+            </p>
+            <p>
+                <strong>Manufacturer:</strong><br />
+                @Model.LitManufacturerName
+            </p>
+            <p>
+                <strong>Barcode:</strong><br />
+                @Model.LitBarcode
+            </p>
+
+        </div>
+        <div class="col-12 col-md-4">
+            <p>
+                <strong>Stock Level:</strong><br />
+                @Model.LitStockLevel
+            </p>
+            <p>
+                <strong>Min Stock Level:</strong><br />
+                @Model.LitMinStockLevel
+            </p>
+            <p>
+                <strong>Price:</strong><br />
+                &pound;@Model.LitPrice
+            </p>
+
+        </div>
+        <div class="col-12 col-md-4">
+            <p>
+                <strong>Footprint:</strong><br />
+                @Model.LitFootprintName
+                @Html.Raw(Model.LitFootprintImage)
+            </p>
+            <p>
+                <strong>Category:</strong><br />
+                @Model.LitPcName
+            </p>
+            <p>
+                <strong>Location:</strong><br />
+                <asp:HyperLink ID="HyperLinkLocation" runat="server"></asp:HyperLink>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-4">
+            <p>
+                <strong>Description:</strong><br />
+                @Model.LitPartDescription
+            </p>
+
+        </div>
+        <div class="col-12 col-md-4">
+            <p>
+                <strong>Notes:</strong><br />
+                @Model.LitPartComment
+            </p>
+
+        </div>
+        <div class="col-12 col-md-4">
+            <p>
+                <strong>Date Created:</strong><br />
+                @Model.LitDateCreated
+            </p>
+            <p>
+                <strong>Last Updated:</strong><br />
+                @Model.LitDateUpdated
+            </p>
+            <p>
+                <strong>Condition:</strong><br />
+                @Model.LitCondition
+            </p>
+        </div>
+    </div>
+    <!-- end content -->
+</div>
+<!-- Parameters Content -->
+<div class="border rounded px-4 pt-2 mb-3 bg-white">
+    <div class="py-3 d-flex flex-row align-items-center justify-content-between">
+        <h4>Parameters</h4>
+        <div>
+            <a href="javascript:LoadModal('parameteradd?id=@Model.LitItemId', 'Add Parameter');" title="add" class="ml-auto"><i class="bi bi-plus-circle iconmed"></i></a>
+        </div>
+    </div>
+    <table class="table border-bottom">
+        <tr>
+            <th><strong>Name</strong></th>
+            <th>Value</th>
+            <th></th>
+        </tr>
+        @if (Model.ItemPartParameter != null)
+        {
+            foreach (var item in Model.ItemPartParameter)
+            {
+                <tr>
+                    <td>@item.ParamName</td>
+                    <td>@item.ParamValue</td>
+                    <td class="text-end">
+                        <a href="javascript:LoadModal('parameteredit?id=@item.PPpkey', 'Edit Parameter');" title="Edit"><i class="bi bi-pen"></i></a>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    </div>
+<!-- End Parameters Content -->
+<!-- Attachments Content -->
+<div class="border rounded px-4 pt-2 mb-3 bg-white">
+    <div class="py-3 d-flex flex-row align-items-center justify-content-between">
+        <h4>Attachments</h4>
+        <div>
+            <a href="javascript:LoadModal('attachmentadd?id=@Model.LitItemId', 'Add Attachment');" title="add" class="ml-auto"><i class="bi bi-plus-circle iconmed"></i></a>
+        </div>
+    </div>
+    <table class="table border-bottom">
+        <tr>
+            <th>Name</th>
+            <th>MIME Type</th>
+            <th>Date Created</th>
+            <th></th>
+        </tr>
+        @if (Model.ItemPartAttachment != null)
+        {
+            foreach (var item in Model.ItemPartAttachment)
+            {
+                <tr>
+                    <td><a href="@item.FileName" target="_blank">@item.DisplayName</a></td>
+
+                    <td>@item.MIMEType</td>
+                    <td>@item.DateCreated.ToShortDateString()</td>
+                    <td class="text-end">
+                        <a href="javascript:LoadModal('attachmentdelete?id=@item.PApkey', 'Delete Attachment');" title="Edit"><i class="bi bi-trash text-danger"></i></a>
+                    </td>
+
+                </tr>
+            }
+         }
+    </table>
+
+
+</div>
+<!-- End Attachments Content -->
+<!-- Suppliers Content -->
+<div class="border rounded px-4 pt-2 mb-3 bg-white">
+    <div class="py-3 d-flex flex-row align-items-center justify-content-between">
+        <h4>Suppliers</h4>
+        <div>
+            <a href="javascript:LoadModal('supplieradd?id=@Model.LitItemId', 'Add Supplier');" title="add" class="ml-auto"><i class="bi bi-plus-circle iconmed"></i></a>
+        </div>
+    </div>
+    <table class="table border-bottom">
+        <tr>
+            <th>Name</th>
+            <th></th>
+        </tr>
+        @if (Model.ItemPartSuppliers != null)
+        {
+            foreach (var item in Model.ItemPartSuppliers)
+            {
+                        <tr>
+                            <td><a href="@item.URL" target="_blank">@item.SupplierName</a></td>
+                    <td class="text-end"><a href="javascript:LoadModal('supplieredit?id=@item.SupPkey', 'Edit Supplier');" title="Edit"><i class="bi bi-pen"></i></a></td>
+                    
+                        </tr>
+            }
+        }
+    </table>
+
+    </div>
+<!-- End Suppliers Content -->
+<!-- Stock Level Change History Content -->
+<div class="border rounded px-4 pt-2 mb-3 bg-white">
+    <div class="py-3 d-flex flex-row align-items-center justify-content-between">
+        <h4>Stock Level Change History</h4>
+    </div>
+    <table class="table border-bottom">
+        <tr>
+            <th>Date</th>
+            <th>Stock Level</th>
+        </tr>
+        @if (Model.ItemStockLevelHistory != null)
+        {
+            foreach (var item in Model.ItemStockLevelHistory)
+            {
+                        <tr>
+                            <td>@item.DateChanged.ToShortDateString()</td>
+                            <td>@item.StockLevel</td>
+                        </tr>
+            }
+        }
+    </table>
+
+</div>
+<!-- End Stock Level Change History Content -->
+<!-- Modal -->
+<div class="modal" tabindex="-1" id="ModalOverlay" role="dialog" aria-labelledby="ModalOverlay" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalOverlayTitle">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <iframe id="TargetFrame"></iframe>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade">
+    <div class="modal-dialog rounded" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalOverlayTitlea">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Modal -->
+
+@section FooterScripts { 
+    <script>
+        function LoadModal(url, modaltitle) {
+            document.getElementById('ModalOverlayTitle').innerHTML = modaltitle;
+            var iframe = document.getElementById('TargetFrame');
+            if (iframe) {
+                iframe.setAttribute('src', '/parts/forms/' + url);
+            }
+
+            let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('ModalOverlay')) 
+            modal.show();
+        }
+
+        window.closeModal = function () {
+
+            let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('ModalOverlay'))
+            modal.hide();
+            location.reload();
+        };
+        
+    </script>
+}

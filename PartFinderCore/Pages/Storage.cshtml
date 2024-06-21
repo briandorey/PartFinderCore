@@ -1,0 +1,42 @@
+﻿@page
+@model PartFinderCore.Pages.StorageModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+@section HeaderBreadCrumb {
+    <li class="breadcrumb-item active" aria-current="page">Storage</li>
+}
+@section header {
+    <a id="addlink" href="/admin/storagelocations/add" class="btn btn-sm btn-primary"><i class="bi bi-plus-circle me-2"></i>Add new</a>
+}
+@section FooterScripts {
+    <script src="/js/pagescripts.js"></script>
+}
+<div class="border rounded px-4 pt-2 bg-white">
+    <table class="table border-bottom tablelinks">
+        <thead>
+            <tr>
+                <th scope="col"><a class="datatable-sorter" asp-page="/Storage" asp-route-sortorder="@Model.SortName">Name</a></th>
+                <th scope="col">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Data != null)
+            {
+                foreach (var item in Model.Data)
+                {
+                    <tr>
+                        <td>@item.StorageName</td>
+
+                        <td class="text-end">
+                            <a href="/parts/listbystoragelocation?id=@item.StoragePkey" class="btn btn-sm btn-primary"><i class="bi bi-eye me-2"></i>View Parts</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    @Html.Raw(Model.Pagination)
+</div>

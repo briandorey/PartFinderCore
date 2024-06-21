@@ -1,0 +1,47 @@
+﻿@page
+@model PartFinderCore.Pages.Admin.Manufacturers.IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+@section HeaderBreadCrumb {
+    <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="/admin/">Admin</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Manufacturers</li>
+}
+@section header {
+
+    <a id="addlink" href="/admin/manufacturers/add" class="btn btn-sm btn-primary"><i class="bi bi-plus-circle me-2"></i>Add new</a>
+}
+<div class="border rounded px-4 pt-2 bg-white">
+    <table class="table border-bottom tablelinks">
+        <thead>
+            <tr>
+                <th scope="col"><a class="datatable-sorter" asp-page="/Admin/Manufacturers/Index" asp-route-sortorder="@Model.SortName">Name</a></th>
+                <th scope="col"><a class="datatable-sorter" asp-page="/Admin/Manufacturers/Index" asp-route-sortorder="@Model.SortUrl">Url</a></th>
+                <th scope="col"><a class="datatable-sorter" asp-page="/Admin/Manufacturers/Index" asp-route-sortorder="@Model.SortPhone">Phone</a></th>
+                <th scope="col">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Data != null)
+            {
+                foreach (var item in Model.Data)
+                {
+                    <tr>
+                        <td>@item.ManufacturerName</td>
+                        <td><a href="@item.ManufacturerURL" target="_blank">@item.ManufacturerURL</a></td>
+                        <td>@item.ManufacturerPhone</td>
+
+                        <td class="text-end">
+                            <a href="/admin/manufacturers/edit?id=@item.mpkey" class="btn btn-primary btn-sm"><i class="bi bi-pen  me-2 "></i>Edit</a>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+    @Html.Raw(Model.Pagination)
+</div>

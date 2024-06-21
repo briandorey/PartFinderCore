@@ -1,0 +1,130 @@
+﻿@page
+@model PartFinderCore.Pages.Parts.Forms.PartEditModel
+@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/bootstrap-icons.css" rel="stylesheet" />
+
+</head>
+<body>
+    <form method="post" class="m-0 p-0 w-100" enctype="multipart/form-data">
+        <div class="container-fluid">
+            <!-- start content -->
+            @Model.ErrorMessage
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3 required">
+                        <label for="PartName">Part Name or Reference:</label>
+                        <input asp-for="PartName" class="form-control form-control-sm" MaxLength="250" />
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="PartDescription">Description</label>
+                        <input asp-for="PartDescription" class="form-control form-control-sm" MaxLength="250" />
+                    </div>
+                </div>
+                <div class="col-12 required">
+                    <div class="mb-3">
+                        <label for="PartCategoryID">Category</label>
+                        <select name="PartCategoryID" id="PartCategoryID" asp-items="Model.CategoryItems" class="form-select  form-select-sm"></select>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="mb-3 required">
+                        <label for="PartManID">Manufacturer</label>
+                        <select name="PartManID" id="PartManID" asp-items="Model.ManItems" class="form-select  form-select-sm"></select>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="mb-3">
+                        <label for="Condition">Condition</label>
+                        <select name="Condition" id="Condition" asp-items="Model.ConditionItems" class="form-select  form-select-sm"></select>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3 required">
+                    <div class="mb-3">
+                        <label for="StorageLocationID">Storage Location</label>
+                        <select name="StorageLocationID" id="StorageLocationID" asp-items="Model.StorageItems" class="form-select  form-select-sm"></select>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <div class="mb-3">
+                        <label for="PartFootprintID">Footprint</label>
+                        <select name="PartFootprintID" id="PartFootprintID" asp-items="Model.FootprintItems" class="form-select  form-select-sm"></select>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="mb-3 required">
+                        <label for="StockLevel">Stock Level</label>
+                        <input asp-for="StockLevel" class="form-control form-control-sm" MaxLength="10" Text="0" />
+                        <small id="StockLevelHelp" class="form-text text-muted">Number only.</small>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="mb-3 required">
+                        <label for="MinStockLevel">Minimum Stock Level</label>
+                        <input asp-for="MinStockLevel" class="form-control form-control-sm" MaxLength="10" Text="0" />
+                        <small id="MinStockLevelHelp" class="form-text text-muted">Number only.</small>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="mb-3 required">
+                        <label for="Price">Price Each</label>
+                        <input asp-for="Price" class="form-control form-control-sm" MaxLength="10" Text="0" />
+                        <small id="PriceHelp" class="form-text text-muted">Number only.</small>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <label for="BarCode">BarCode</label>
+                        <input asp-for="BarCode" class="form-control form-control-sm" MaxLength="50" />
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <label for="MPN">MPN</label>
+                        <input asp-for="Mpn" class="form-control form-control-sm" MaxLength="250" />
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="PartComment">Notes</label>
+                        <textarea asp-for="PartComment" class="form-control form-control-sm" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <button type="submit" asp-page-handler="SaveData" class="btn btn-primary"><i class="bi bi-floppy me-2"></i>Save</button>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-12 pt-4">
+                    <div class="alert alert-danger text-center py-3" role="alert">
+                        <h4>Delete Part</h4>
+                        <p>Are you sure you want to delete this item and all related files?</p>
+                        <button type="submit" asp-page-handler="DeleteData" class="btn btn-danger btn-sm me-4"><i class="bi bi-trash me-2"></i>Delete Part and Attachments</button>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" asp-for="SelectedId" />
+
+    </form>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

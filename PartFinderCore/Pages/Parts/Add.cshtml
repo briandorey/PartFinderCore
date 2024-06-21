@@ -1,0 +1,109 @@
+﻿@page
+@model PartFinderCore.Pages.Parts.AddModel
+@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+@section header {
+
+    <a href="/parts/list" title="List All" class="btn btn-sm btn-secondary"><i class="bi bi-list me-2"></i>List All</a>
+}
+@section HeaderBreadCrumb {
+    <li class="breadcrumb-item"><a class="link-body-emphasis fw-semibold text-decoration-none" href="/parts/">Parts</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Add Part</li>
+}
+<form method="post" class="m-0 p-0 w-100" enctype="multipart/form-data">
+<div class="border rounded px-4 pt-2 bg-white">
+        
+        
+        <div class="row">
+            <div class="col-12 col-md-6"><div asp-validation-summary="All" class="text-danger"></div>@Model.ErrorMessage</div>
+            <div class="col-12 col-md-6 text-end"><button type="submit" asp-page-handler="Save" class="btn btn-primary "><i class="bi bi-floppy me-2"></i>Save</button></div>
+            <div class="col-12">
+                <div class="mb-3 required">
+                    <label for="PartName">Part Name or Reference:</label>
+                    <input asp-for="PartName" class="form-control form-control-sm" MaxLength="250" />
+                    <small id="PartNameHelp" class="form-text text-muted">Enter the Part Name or Reference of your part.</small>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="mb-3">
+                    <label for="PartDescription">Description</label>
+                    <input asp-for="PartDescription" class="form-control form-control-sm" MaxLength="250" />
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="mb-3">
+                    <label for="PartCategoryID">Category</label>
+                    <select name="PartCategoryID" id="PartCategoryID" asp-items="Model.CategoryItems" class="form-select  form-select-sm"></select>
+                </div>
+            </div>
+            <div class="col-12 col-md-3">
+                <div class="mb-3 required">
+                    <label for="PartManID">Manufacturer</label>
+                    <select name="PartManID" id="PartManID" asp-items="Model.ManItems" class="form-select  form-select-sm"></select>
+                </div>
+            </div>
+            <div class="col-12 col-md-3">
+                <div class="mb-3">
+                    <label for="Condition">Condition</label>
+                    <select name="Condition" id="Condition" asp-items="Model.ConditionItems" class="form-select  form-select-sm"></select>
+                 </div>
+            </div>
+            <div class="col-12 col-md-3 required">
+                <div class="mb-3">
+                    <label for="StorageLocationID">Storage Location</label>
+                    <select name="StorageLocationID" id="StorageLocationID" asp-items="Model.StorageItems" class="form-select  form-select-sm"></select>
+                </div>
+            </div>
+            <div class="col-12 col-md-3">
+                <div class="mb-3">
+                    <label for="PartFootprintID">Footprint</label>
+                    <select name="PartFootprintID" id="PartFootprintID" asp-items="Model.FootprintItems" class="form-select  form-select-sm"></select>
+                </div>
+            </div>
+            <div class="col-12 col-md-3">
+                <div class="mb-3 required">
+                    <label for="StockLevel">Stock Level</label>
+                    <input asp-for="StockLevel" class="form-control form-control-sm" MaxLength="10" Text="0" />
+                    <small id="StockLevelHelp" class="form-text text-muted">Number only.</small>
+                </div>
+            </div>
+            <div class="col-12 col-md-3">
+                <div class="mb-3 required">
+                    <label for="MinStockLevel">Minimum Stock Level</label>
+                    <input asp-for="MinStockLevel" class="form-control form-control-sm" MaxLength="10" Text="0" />
+                    <small id="MinStockLevelHelp" class="form-text text-muted">Number only.</small>
+                </div>
+            </div>
+            <div class="col-12 col-md-3">
+                <div class="mb-3 required">
+                    <label for="Price">Price Each</label>
+                    <input asp-for="Price" class="form-control form-control-sm" MaxLength="10" Text="0" />
+                    <small id="PriceHelp" class="form-text text-muted">Number only.</small>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="mb-3">
+                    <label for="BarCode">BarCode</label>
+                    <input asp-for="BarCode" class="form-control form-control-sm" MaxLength="50" />
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="mb-3">
+                    <label for="MPN">MPN</label>
+                    <input asp-for="Mpn" class="form-control form-control-sm" MaxLength="250" />
+                 
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="mb-3">
+                    <label for="PartComment">Notes</label>
+                    <textarea asp-for="PartComment" class="form-control form-control-sm" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+</div>
+
+</form>

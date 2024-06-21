@@ -1,0 +1,48 @@
+﻿@page
+@model PartFinderCore.Pages.Admin.Category.IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+@section HeaderBreadCrumb {
+    <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="/admin/">Admin</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Categories</li>
+}
+@section header {
+    <a id="addlink" href="/admin/category/treeview" class="btn btn-sm btn-outline-secondary"><i class="bi bi-list me-2"></i>Tree View</a>
+    <a id="addlink" href="/admin/category/add" class="btn btn-sm btn-primary"><i class="bi bi-plus-circle me-2"></i>Add new</a>
+}
+@section FooterScripts {
+    <script src="/js/pagescripts.js"></script>
+}
+<div class="border rounded px-4 pt-2 bg-white">
+    <table class="table border-bottom tablelinks">
+        <thead>
+            <tr>
+                <th scope="col"><a class="datatable-sorter" asp-page="/Admin/Category/Index" asp-route-sortorder="@Model.SortName">Name</a></th>
+                <th scope="col"><a class="datatable-sorter" asp-page="/Admin/Category/Index" asp-route-sortorder="@Model.SortDescription">Description</a></th>
+                <th scope="col">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Data != null)
+            {
+                foreach (var item in Model.Data)
+                {
+                    <tr>
+                        <td>@item.PCName</td>
+                        <td>@item.PCDescription</td>
+                        
+                        <td class="text-end">
+                            <a href="/admin/category/edit?id=@item.PCpkey" class="btn btn-primary btn-sm"><i class="bi bi-pen  me-2 "></i>Edit</a>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+    @Html.Raw(Model.Pagination)
+</div>

@@ -1,0 +1,125 @@
+﻿@page
+@model PartFinderCore.Pages.Admin.IndexModel
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+@section HeaderBreadCrumb {
+    <li class="breadcrumb-item active" aria-current="page">Admin</li>
+}
+
+<div class="row">
+    <!-- Start Users -->
+    <div class="col-xl-6 col-md-6 mb-4">
+        <div class="card border-left-primary  h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col me-2">
+                        <div class="text-uppercase mb-4">User Management</div>
+                        <div class="mb-4"><a href="/admin/users/"><i class="bi bi-person me-3"></i>List Users</a></div>
+                        <div class=" mb-0"><a href="/admin/users/add"><i class="bi bi-person-add me-3"></i>Add User</a></div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Users -->
+    <!-- Start Category -->
+    <div class="col-xl-6 col-md-6 mb-4">
+        <div class="card border-left-success  h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col me-2">
+                        <div class="text-uppercase mb-4">Category Management</div>
+                        <div class=" mb-4"><a href="/admin/category/treeview"> <i class="bi bi-folder me-3"></i>List Categories</a></div>
+                        <div class=" mb-0"><a href="/admin/category/add"> <i class="bi bi-folder-plus me-3"></i>Add Category</a></div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Category -->
+    <!-- Start Footprint Category -->
+    <div class="col-xl-6 col-md-6 mb-4">
+        <div class="card border-left-secondary  h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col me-2">
+                        <div class=" text-uppercase mb-4">Footprint Category Management</div>
+                        <div class=" mb-4"><a href="/admin/footprintcat/"> <i class="bi bi-folder me-3"></i>List Footprint Categories</a></div>
+                        <div class=" mb-0"><a href="/admin/footprintcat/add" > <i class="bi bi-folder-plus me-3"></i>Add Footprint Category</a></div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Footprint Category -->
+    <!-- Start Footprints -->
+    <div class="col-xl-6 col-md-6 mb-4">
+        <div class="card border-left-warning  h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col me-2">
+                        <div class="text-uppercase mb-4">Footprint Management</div>
+                        <div class=" mb-4"><a href="/admin/footprints/" > <i class="bi bi-folder me-3"></i>List Footprints</a></div>
+                        <div class=" mb-0"><a href="/admin/footprints/add" > <i class="bi bi-folder-plus me-3"></i>Add Footprint</a></div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Footprints -->
+    <!-- Start Storage Locations -->
+    <div class="col-xl-6 col-md-6 mb-4">
+        <div class="card border-left-info  h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col me-2">
+                        <div class="text-uppercase mb-4">Storage Locations Management</div>
+                        <div class=" mb-4"><a href="/admin/storagelocations/" > <i class="bi bi-folder me-3"></i>List Storage Locations</a></div>
+                        <div class=" mb-0"><a href="/admin/storagelocations/add" > <i class="bi bi-folder-plus me-3"></i>Add Storage Location</a></div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Storage Locations -->
+    <!-- Start Manufacturers Locations -->
+    <div class="col-xl-6 col-md-6 mb-4">
+        <div class="card border-left-primary  h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col me-2">
+                        <div class="text-uppercase mb-4">Manufacturers Management</div>
+                        <div class=" mb-4"><a href="/admin/manufacturers/" > <i class="bi bi-folder me-3"></i>List Manufacturers</a></div>
+                        <div class=" mb-0"><a href="/admin/manufacturers/add" > <i class="bi bi-folder-plus me-3"></i>Add Manufacturer</a></div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Manufacturers Locations -->
+    <!-- Start File Manager Locations -->
+    <div class="col-xl-6 col-md-6 mb-4">
+        <div class="card border-left-danger  h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col me-2">
+                        <div class="text-uppercase mb-4">File Manager</div>
+                        <div class=" mb-4"><a href="/admin/files/" > <i class="bi bi-folder me-3"></i>Manage Files and Folders</a></div>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Manufacturers Locations -->
+
+</div>

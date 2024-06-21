@@ -1,0 +1,87 @@
+﻿@page
+@model PartFinderCore.Pages.Admin.Manufacturers.AddModel
+@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+@section header {
+
+    <a href="/admin/manufacturers/" title="List All" class="btn btn-sm btn-secondary"><i class="bi bi-list me-2"></i>List All</a>
+}
+@section HeaderBreadCrumb {
+    <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="/admin/">Admin</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="/admin/manufacturers/">Manufacturers</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Add Manufacturer</li>
+}
+<form method="post" class="m-0 p-0 w-100" enctype="multipart/form-data">
+    <div class="border rounded px-4 pt-2 bg-white">
+
+
+        <div class="row">
+            <div class="col-12 col-md-6"><div asp-validation-summary="All" class="text-danger"></div></div>
+            <div class="col-12 col-md-6 text-end"><button type="submit" asp-page-handler="Save" class="btn btn-primary "><i class="bi bi-floppy me-2"></i>Save</button></div>
+            
+            <div class="col-12">
+                <div class="mb-3 required">
+                    <label for="ManufacturerName">Name:</label>
+                    <input asp-for="ManufacturerName" class="form-control form-control-sm" MaxLength="250" />
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="mb-3 required">
+                    <label for="ManufacturerAddress">Address:</label>
+                    <input asp-for="ManufacturerAddress" class="form-control form-control-sm" MaxLength="250" />
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="mb-3 required">
+                    <label for="ManufacturerURL">URL:</label>
+                    <input asp-for="ManufacturerUrl" class="form-control form-control-sm" MaxLength="250" />
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="mb-3 required">
+                    <label for="ManufacturerPhone">Phone:</label>
+                    <input asp-for="ManufacturerPhone" class="form-control form-control-sm" MaxLength="250" />
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="mb-3 required">
+                    <label for="ManufacturerEmail">Email:</label>
+                    <input asp-for="ManufacturerEmail" class="form-control form-control-sm" MaxLength="250" />
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="mb-3">
+                    <label for="ManufacturerComment">Notes</label>
+                    <input asp-for="ManufacturerComment" class="form-control form-control-sm" MaxLength="250" />
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="mb-3">
+                    <label for="FootprintImage">Logo</label>
+                    <div class="input-group">
+                        <input asp-for="ManufacturerLogo" name="ManufacturerLogo" class="form-control form-control-sm" MaxLength="250" />
+                        <div class="input-group-append input-group-sm ">
+                            <a href="javascript:ImageBrowser()" class="input-group-text bg-secondary text-white" id="inputGroupPrepend3"><i class="far fa-folder-open me-2"></i>Open File Browser</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    function ImageBrowser() {
+        window.open('/admin/filebrowser?fieldname=ManufacturerLogo', 'mywindow', 'location=1,status=1,scrollbars=1, width=600,height=600');
+    }
+
+    function setSelectedFile(filename) {
+        // Set the selected file name in the input field
+        document.getElementById('ManufacturerLogo').value = filename;
+    }
+</script>

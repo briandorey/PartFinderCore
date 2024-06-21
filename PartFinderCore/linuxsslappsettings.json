@@ -1,0 +1,28 @@
+{
+  "Kestrel": {
+    "EndPoints": {
+	"Http": {
+        "Url": "http://127.0.0.1:6002"
+      },
+      "Https": {
+        "Url": "https://127.0.0.1:6003",
+        "Certificate": {
+          "Path": "certficate.pfx",
+          "Password": "password"
+        }
+      }
+    }
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Error",
+      "Microsoft.AspNetCore": "Error"
+    }
+  },
+  "AllowedHosts": "*",
+  "SiteData": {
+"RequireLogin": false,
+
+    "DataBasePath": "/home/username/PFData.db"   
+  }
+}

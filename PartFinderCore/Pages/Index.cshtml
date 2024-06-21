@@ -1,0 +1,171 @@
+﻿@page
+@using PartFinderCore.Pages
+@model IndexModel
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+    
+}
+
+@section HeaderBreadCrumb {
+    <li class="breadcrumb-item active" aria-current="page">Overview</li>
+}
+@section header {
+  <a href="/parts/" title="Tree View" class="btn btn-sm btn-outline-secondary me-2"><i class="bi bi-list-nested me-2"></i>Tree View</a><a id="addlink" href="/parts/add" class="btn btn-sm btn-primary"><i class="bi bi-plus-circle me-2"></i>Add new part</a>
+
+}
+
+@section FooterScripts {
+    <script src="/js/pagescripts.js"></script>
+}
+
+<h2 class=" fw-light">Inventory summary</h2>
+<div class="row mb-3">
+    <div class="col-lg-6 col-xl-3 mb-4">
+        <div class="card color1 text-white h-100 border-0">
+            <div class="card-body ">
+                <div class="d-flex justify-content-between align-items-center m-0">
+                    <div class="me-3 mb-0">
+
+                        <div class="text-lg h1 fw-light">
+                            @Model.LitPartCount
+                        </div>
+                        <div class="text-white-75 small">Parts</div>
+                    </div>
+                    <i class="bi bi-cpu iconxl"></i>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between small">
+                <a class="text-white stretched-link" href="/parts/">View List</a>
+                <div class="text-white"><i class="bi bi-chevron-right iconmed"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-xl-3 mb-4">
+        <div class="card color2 text-white h-100  border-0">
+            <div class="card-body ">
+                <div class="d-flex justify-content-between align-items-center m-0">
+                    <div class="me-3 mb-0">
+
+                        <div class="text-lg h1 fw-light">
+                            @Model.LitManCount
+                           
+                        </div>
+                        <div class="text-white-75 small">Manufacturers</div>
+                    </div>
+                    <i class="bi bi-cart iconxl"></i>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between small">
+                <a class="text-white stretched-link" href="/manufacturers">View List</a>
+                <div class="text-white"><i class="bi bi-chevron-right iconmed"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-xl-3 mb-4">
+        <div class="card color3 text-white h-100  border-0">
+            <div class="card-body ">
+                <div class="d-flex justify-content-between align-items-center m-0">
+                    <div class="me-3 mb-0">
+
+                        <div class="text-lg h1 fw-light">
+                            @Model.LitAttachmentCount
+                        </div>
+                        <div class="text-white-75 small">Part Attachments</div>
+                    </div>
+                    <i class="bi bi-folder iconxl"></i>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between small">
+                <a class="text-white stretched-link" href="/admin/files/">View List</a>
+                <div class="text-white"><i class="bi bi-chevron-right iconmed"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-xl-3 mb-4">
+        <div class="card color4 text-white h-100  border-0">
+            <div class="card-body ">
+                <div class="d-flex justify-content-between align-items-center m-0">
+                    <div class="me-3 mb-0">
+
+                        <div class="text-lg h1 fw-light">
+                            @Model.LitStorageCount
+                           
+                        </div>
+                        <div class="text-white-75 small">Storage Locations</div>
+                    </div>
+                    <i class="bi bi-box iconxl"></i>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between small">
+                <a class="text-white stretched-link" href="/storage">View List</a>
+                <div class="text-white"><i class="bi bi-chevron-right iconmed"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header   d-flex flex-row align-items-center justify-content-between">
+                Low Stock Parts
+                <a href="/parts/add" title="Add new"><i class="fas fa-plus me-1"></i></a>
+            </div>
+            <div class="card-body">
+
+
+                <!-- start content -->
+                @Model.LitMsg
+               
+                <div class="table-responsive">
+                    <table class="table border-bottom tablelinks">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Stock</th>
+                                <th scope="col">Storage</th>
+                                <th scope="col">Manufacturer</th>
+                                <th scope="col">Footprint</th>
+                                <th scope="col">Category</th>
+
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Data != null)
+                            {
+                                foreach (var item in Model.Data)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a href="/parts/view?id=@item.PartPkey">
+                                                @item.PartName
+                                            </a>
+                                        </td>
+                                        <td>@item.PartDescription</td>
+                                        <td>@item.StockLevel</td>
+                                        <td>@item.StorageName</td>
+                                        <td>@item.ManufacturerName</td>
+                                        <td>@item.FootprintName</td>
+                                        <td>@item.PCName</td>
+                                        
+                                       
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                           
+                </div>
+                @Html.Raw(Model.Pagination)
+                <!-- end content -->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-12 ">
+        <p class="small">Made with <a href="https://getbootstrap.com/">Bootstrap</a> and icons from <a href="https://icons.getbootstrap.com/">Bootstrap</a>. Developed by <a href="https://www.briandorey.com/">Brian Dorey</a>. Version 2.0.0  June 2024</p>
+    </div>
+</div>

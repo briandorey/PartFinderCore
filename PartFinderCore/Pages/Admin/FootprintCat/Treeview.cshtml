@@ -1,0 +1,23 @@
+﻿@page
+@model PartFinderCore.Pages.Admin.FootprintCat.TreeviewModel
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+@section HeaderBreadCrumb {
+    <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="/admin/">Admin</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="/admin/footprintcat/">Footprint Category</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Tree View</li>
+}
+@section header {
+    <a id="addlink" href="/admin/footprintcat/" class="btn btn-sm btn-outline-secondary"><i class="bi bi-list me-2"></i>List View</a>
+    <a id="addlink" href="/admin/footprintcat/add" class="btn btn-sm btn-primary"><i class="bi bi-plus-circle me-2"></i>Add new</a>
+}
+
+<div class="border rounded px-4 pt-2 bg-white">
+    @Html.Raw(Model.PageData)
+</div>
+

@@ -1,0 +1,58 @@
+﻿@page
+@model PartFinderCore.Pages.Parts.ListModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+@section HeaderBreadCrumb {
+    <li class="breadcrumb-item"><a class="link-body-emphasis fw-semibold text-decoration-none" href="/parts/">Parts</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Parts List</li>
+}
+@section header {
+    <a href="/api/export" title="Export" class="btn btn-sm btn-outline-primary me-2"><i class="bi bi-filetype-csv me-2"></i>Export</a><a href="/parts/" title="Tree View" class="btn btn-sm btn-outline-secondary me-2"><i class="bi bi-list-nested me-2"></i>Tree View</a><a id="addlink" href="/parts/add" class="btn btn-sm btn-primary"><i class="bi bi-plus-circle me-2"></i>Add new</a>
+    
+}
+
+@section FooterScripts {
+    <script src="/js/pagescripts.js"></script>
+}
+@Html.Raw(Model.LitMsg)
+<div class="border rounded px-4 pt-2 bg-white">
+                <!-- start content -->
+                    <table class="table">
+                        <tr>
+                            <th><a class="datatable-sorter" asp-page="/Parts/List" asp-route-sortorder="@Model.SortName">Name</a></th>
+                            <th><a class="datatable-sorter" asp-page="/Parts/List" asp-route-sortorder="@Model.SortDescription">Description</a></th>
+                            <th><a class="datatable-sorter" asp-page="/Parts/List" asp-route-sortorder="@Model.SortStock">Stock</a></th>
+                            <th><a class="datatable-sorter" asp-page="/Parts/List" asp-route-sortorder="@Model.SortLocation">Location</a></th>
+                            <th><a class="datatable-sorter" asp-page="/Parts/List" asp-route-sortorder="@Model.SortManufacturer">Manufacturer</a></th>
+                            <th><a class="datatable-sorter" asp-page="/Parts/List" asp-route-sortorder="@Model.SortFootprint">Footprint</a></th>
+                            <th><a class="datatable-sorter" asp-page="/Parts/List" asp-route-sortorder="@Model.SortCategory">Category</a></th>
+                        </tr>
+                        @if (Model.Data != null)
+                        {
+                            foreach (var item in Model.Data)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="/parts/view?id=@item.PartPkey">
+                                            @item.PartName
+                                        </a>
+                                    </td>
+                                    <td>@item.PartDescription</td>
+                                    <td>@item.StockLevel</td>
+                                    <td>@item.StorageName</td>
+                                    <td>@item.ManufacturerName</td>
+                                    <td>@item.FootprintName</td>
+                                    <td>@item.PCName</td>
+
+
+                                </tr>
+                            }
+                        }
+                    </table>
+    @Html.Raw(Model.Pagination)               
+                <!-- end content -->
+            </div>
+        

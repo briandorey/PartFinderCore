@@ -1,0 +1,51 @@
+﻿@page
+@model PartFinderCore.Pages.SearchModel
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+@section HeaderBreadCrumb {
+    <li class="breadcrumb-item active" aria-current="page">Search</li>
+}
+
+
+@section FooterScripts {
+    <script src="/js/pagescripts.js"></script>
+}
+@Html.Raw(Model.LitMsg)
+<div class="border rounded px-4 pt-2 bg-white">
+
+                    <table class="table border-bottom tablelinks">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Stock</th>
+                                    <th>Location</th>
+                                    <th>Manufacturer</th>
+                                    <th>Footprint</th>
+                                    <th>Category</th>
+                                </tr>
+                        @if (Model.Data != null)
+                        {
+                            foreach (var item in Model.Data)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="/parts/view?id=@item.PartPkey">
+                                            @item.PartName
+                                        </a>
+                                    </td>
+                                    <td>@item.PartDescription</td>
+                                    <td>@item.StockLevel</td>
+                                    <td>@item.StorageName</td>
+                                    <td>@item.ManufacturerName</td>
+                                    <td>@item.FootprintName</td>
+                                    <td>@item.PCName</td>
+
+
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+              
