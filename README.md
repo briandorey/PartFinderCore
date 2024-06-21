@@ -90,24 +90,22 @@ cd /var/www/PartFinderCorePublish
 ```
 To create a self-signed certificate first generate a private key.
 ```
-openssl genpkey -algorithm RSA -out selfsigned.key
+openssl genpkey -algorithm RSA -out certificate.key
 ```
 Generate a self-signed certificate
 ```
-openssl req -new -x509 -key selfsigned.key -out selfsigned.crt -days 365
+openssl req -new -x509 -key certificate.key -out certificate.crt -days 365
 ```
 Convert the certificate and key to a PFX file.
 ```
-openssl pkcs12 -export -out selfsigned.pfx -inkey selfsigned.key -in selfsigned.crt
+openssl pkcs12 -export -out certificate.pfx -inkey certificate.key -in certificate.crt
 ```
 Set permissions to read write and execute for the PartFinderCorePublish folder.
 ```
 sudo chmod 755 /var/www/PartFinderCorePublish
 ```
-If the database is in a different folder you will also need to set the same permissions for that folder.
-```
-sudo chmod 755 /var/www/PartFinderCorePublish
-```
+If the database is in a different folder you will also need to set the same permissions for that folder.  
+
 Set the owner of the website. This user should exist on the server.
 ```
 sudo chown -Rv www-data /var/www/PartFinderCorePublish
