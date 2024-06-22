@@ -303,7 +303,7 @@ public partial class IndexModel(IWebHostEnvironment environment) : PageModel
     public FileResult? OnGetDownloadFile(string fileName)
     {
         
-        string pattern = "^(?!.*\\..*\\.)([a-z0-9/\\\\.]+)$";
+        string pattern = "^(?!.*\\..*\\.)([a-z0-9/\\\\.\\-_]+)$";
         fileName = WebUtility.UrlDecode(fileName);
         fileName = ReturnSafePath(fileName);
         ErrorMessage = fileName;
